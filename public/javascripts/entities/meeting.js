@@ -17,9 +17,8 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
     }
   });
 
-  // Private
-  var API = {
-    getMeetingEntities: function () {
+  var API = Marionette.Object.extend({
+    getMeetings: function () {
       var meetings = new Entities.Meetings();
       var defer = $.Deferred();
       meetings.fetch({
@@ -29,12 +28,13 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
       });
       return defer.promise();
     },
-    getMeetingEntity: function (meetingId) {
+    getMeeting: function (meetingId) {
       var meeting = new Entities.Meeting({_id: meetingId});
       var defer = $.Deferred(); // Declare a Deferred obj instance (something that will happen later)
       meeting.fetch({
         success: function(data){
-          defer.resolve(data); // When fetch call succeeds, we resolve the deferred obj & forward the received tata
+          debugger;
+          defer.resolve(data); // When fetch call succeeds, we resolve the deferred obj & forward the received data
         },
         error: function(data){
           defer.resolve(undefined);
@@ -42,16 +42,18 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
       });
       return defer.promise(); // Return a promise on that obj. Allows code elsewhere to monitor the promise and react to any changes (fresh data coming in)
     }
-  };
+  });
+
+  var api = new API();
 
   /* Handler for meeting collection requests. */
   meetingChannel.reply('meetings', function(){
-    return API.getMeetingEntities();
+    return api.getMeetings();
   });
 
   /* Handler for individual meeting requests. */
   meetingChannel.reply('meeting', function(id){
-    return API.getMeetingEntity(id);
+    return api.getMeeting(id);
   });
 
 });
