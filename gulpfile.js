@@ -1,9 +1,11 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var stylus = require('gulp-stylus');
 var minifyCSS = require('gulp-minify-css');
+var watch = require('gulp-watch');
 
-gulp.task('default', function() {
+gulp.task('uglifyJS', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
     'bower_components/pickadate/lib/picker.js',
@@ -16,7 +18,6 @@ gulp.task('default', function() {
     'bower_components/backbone/backbone.js',
     'bower_components/marionette/lib/backbone.marionette.js',
     'bower_components/backbone.radio/build/backbone.radio.js',
-    'javascripts/vendor/jquery.tablesort.min.js',
     'public/javascripts/**/*.js'
   ])
     .pipe(concat('bundle.js'))
@@ -24,15 +25,30 @@ gulp.task('default', function() {
     .pipe(gulp.dest('public/dist'));
 });
 
-gulp.task('css', function() {
+gulp.task('compileCSS', function () {
+  return gulp.src([
+    'public/stylesheets/*.styl'
+  ])
+    .pipe(stylus())
+    .pipe(gulp.dest('public/stylesheets'));
+});
+
+gulp.task('minifyCSS', function() {
   return gulp.src([
     'bower_components/pickadate/lib/themes/default.css',
     'bower_components/pickadate/lib/themes/default.date.css',
     'bower_components/pickadate/lib/themes/default.time.css',
     'bower_components/semantic-ui/build/packaged/css/semantic.min.css',
-    'public/stylesheets/style.css'
+    'public/stylesheets/*.css'
   ])
     .pipe(concat('bundle.css'))
     .pipe(minifyCSS({keepBreaks:true}))
     .pipe(gulp.dest('public/dist'));
 });
+
+gulp.task('watch', function() {
+  gulp.watch('public/stylesheets/**.styl', ['compileCSS', 'minifyCSS']);
+  gulp.watch('public/javascripts/**/*.js', ['uglifyJS']);
+});
+
+gulp.task('default', ['watch']);
