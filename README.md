@@ -17,6 +17,8 @@ A simple meeting booker built on top of Marionette and Backbone.
 6. In your terminal, type `gulp`
 7. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
 
+Note: All of your meetings will be outputted as JSON at this endpoint: [localhost:3000/api/meetings](http://localhost:3000/api/meetings)
+
 ### Client-Side Tech
 * Backbone
 * Marionette
