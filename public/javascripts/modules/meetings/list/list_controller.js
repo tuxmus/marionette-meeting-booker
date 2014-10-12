@@ -8,7 +8,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
         title: 'Loading Meeting List'
       });
 
-      MeetingBooker.editRegion.show(loadingView);
+      MeetingBooker.getRegion('editRegion').show(loadingView);
 
       var fetchingMeetings = meetingChannel.request('meetings');
       $.when(fetchingMeetings).done(function(meetings){
@@ -28,7 +28,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
             model.destroy();
           });
 
-          MeetingBooker.meetingRegion.show(meetingsListView);
+          MeetingBooker.getRegion('meetingRegion').show(meetingsListView);
         }
       });
     }

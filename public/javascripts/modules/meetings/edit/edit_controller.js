@@ -4,7 +4,7 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
   Edit.Controller = {
     editMeeting: function(id){
       var loadingView = new MeetingBooker.CommonViews.Loading();
-      MeetingBooker.editRegion.show(loadingView);
+      MeetingBooker.getRegion('editRegion').show(loadingView);
       // Trigger a request event with id as argument. Get the promise returned by our handler.
       var fetchingMeeting = meetingChannel.request('meeting', id);
       // Wait until data is fetched before display our view
@@ -34,7 +34,7 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
           meetingChannel.command('list:meetings');
         });
 
-        MeetingBooker.editRegion.show(view);
+        MeetingBooker.getRegion('editRegion').show(view);
 
       });
     }
