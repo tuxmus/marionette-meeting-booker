@@ -7,11 +7,7 @@ html
     meta(name='description', content='Hook & Loop meeting booker app')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Sacramento|Open+Sans:400,300,800,700', type='text/css')
-    link(rel='stylesheet', href='/bower_components/pickadate/lib/themes/default.css')
-    link(rel='stylesheet', href='/bower_components/pickadate/lib/themes/default.date.css')
-    link(rel='stylesheet', href='/bower_components/pickadate/lib/themes/default.time.css')
-    link(rel='stylesheet', href='/bower_components/semantic-ui/build/packaged/css/semantic.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/dist/bundle.css')
 
   body
     #container
@@ -20,25 +16,5 @@ html
       .ui.divider
       block content
 
-    script(src='/bower_components/jquery/dist/jquery.min.js')
-    script(src='/bower_components/pickadate/lib/picker.js')
-    script(src='/bower_components/pickadate/lib/picker.date.js')
-    script(src='/bower_components/pickadate/lib/picker.time.js')
-    script(src='/bower_components/pickadate/lib/legacy.js')
-    script(src='/bower_components/semantic-ui/build/packaged/javascript/semantic.min.js')
-    script(src='/bower_components/json2/json2.js')
-    script(src='/bower_components/underscore/underscore.js')
-    script(src='/bower_components/backbone/backbone.js')
-    script(src='/bower_components/marionette/lib/backbone.marionette.min.js')
-    script(src='/bower_components/backbone.radio/build/backbone.radio.min.js')
-    script(src='/javascripts/meetingBooker.js')
-    script(src='/javascripts/entities/meeting.js')
-    script(src='/javascripts/common/views.js')
-    script(src='/javascripts/modules/meetings/meetings_app.js')
-    script(src='/javascripts/modules/meetings/list/list_view.js')
-    script(src='/javascripts/modules/meetings/list/list_controller.js')
-    script(src='/javascripts/modules/meetings/edit/edit_view.js')
-    script(src='/javascripts/modules/meetings/edit/edit_controller.js')
-    script(src='/javascripts/vendor/jquery.tablesort.min.js')
-    script(src='/javascripts/main.js')
+    script(src='/dist/bundle.js')
     script MeetingBooker.start();
