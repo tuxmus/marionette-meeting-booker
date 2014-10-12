@@ -17,7 +17,6 @@ MeetingBooker.getCurrentRoute = function() {
 };
 
 MeetingBooker.on('start', function(){
-
   // Once all initializers have been run, the 'start' event is triggered. We can only start Backbone's routing (via the history attribute) once all initializer have been run, to ensure the the routing controllers are ready to respond to routing events.
   if(Backbone.history){
     Backbone.history.start();
@@ -29,18 +28,19 @@ MeetingBooker.on('start', function(){
   }
 
   // Create new meeting view
-  MeetingBooker.CreateView = Marionette.ItemView.extend({
+  var BlankMeetingForm = Marionette.ItemView.extend({
     template: "#meeting-create",
     events: {
       'submit form': 'saveMeeting'
     },
 
     saveMeeting: function(e){
+      var $form = $('.ui.form');
       e.preventDefault();
       //Get value from an input field
       function getFieldValue(fieldId) {
         // 'get field' is part of Semantics form behavior API
-        return $('.ui.form').form('get field', fieldId).val();
+        return $form.form('get field', fieldId).val();
       }
 
       var formData = {};
@@ -57,7 +57,7 @@ MeetingBooker.on('start', function(){
       var meeting = new MeetingBooker.Entities.Meeting(formData);
       $.when(meeting.save())
         .done(function(){
-          $('.ui.form').trigger('reset');
+          $form.trigger('reset');
           $('.ui.dropdown').dropdown('restore defaults');
           $('.location').removeClass('mid-gray');
           $('.category').removeClass('mid-gray');
@@ -91,6 +91,6 @@ MeetingBooker.on('start', function(){
     }
   });
 
-  var createView = new MeetingBooker.CreateView();
-  MeetingBooker.mainRegion.show(createView);
+  var blankMeetingForm = new BlankMeetingForm();
+  MeetingBooker.getRegion('mainRegion').show(blankMeetingForm);
 });
