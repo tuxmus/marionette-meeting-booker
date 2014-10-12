@@ -1,0 +1,161 @@
+extends layout
+
+block content
+    #wrapper
+    #meeting-region
+    #edit-region
+    script(type='text/template', id='meeting-create')
+      form.ui.large.form.segment
+        .field.input.ui.huge
+          input(type='text', name='title', id='title', placeholder='Meeting name')
+          .ui.corner.label
+            i.asterisk.icon
+        .date.field.input.ui.huge
+          label
+          input(type='text', name='date', id='date', class='datepicker', placeholder='Pick a date')
+        .two.fields
+          .field.icon.input.ui.huge
+            label
+            input(type='text', name='startTimeClient', id='startTimeClient', class='starttimepicker', placeholder='Pick a start time')
+            i.time.icon
+          .field.icon.input.ui.huge
+            label
+            input(type='text', name='endTimeClient', id='endTimeClient', class='endtimepicker', placeholder='Pick an end time')
+            i.time.icon
+        .field.ui.selection.fluid.dropdown.input.huge.js-location-dropdown
+            input(type='hidden', name='location', id='location')
+            .text.location.gray Select a location
+            i.black.dropdown.icon
+            .menu.location-dropdown
+                .item(data-value='Basie') Basie
+                .item(data-value='Ellington') Ellington
+                .item(data-value='Fitzgerald') Fitzgerald
+                .item(data-value='Gillespie') Gillespie
+                .item(data-value='Gordon') Gordon
+                .item(data-value='Marsalis') Marsalis
+                .item(data-value='Miller') Miller
+                .item(data-value='Monk') Monk
+                .item(data-value='MPR') MPR
+                .item(data-value='Rollins') Rollins
+                .item(data-value='Sinatra') Sinatra
+                .item(data-value='Vaughan') Vaughan
+                .item(data-value='Williams') Williams
+                .item(data-value='Williams / Sinatra') Williams / Sinatra
+                .item(data-value='Williams / Sinatra / Ellington') Williams / Sinatra / Ellington
+        .field.ui.selection.fluid.dropdown.input.huge.js-category-dropdown
+            input(type='hidden', name='category', id='category')
+            .text.category.gray Select a category
+            i.black.dropdown.icon
+            .menu.category-dropdown
+                .item(data-value='Customer')
+                  i.large.basic.money.icon
+                  | Customer
+                .item(data-value='Internal')
+                  i.large.home.icon
+                  | Internal
+                .item(data-value='Partner')
+                  i.large.globe.icon
+                  | Partner
+                .item(data-value='Public / Analyst Relations')
+                  i.large.basic.chart.icon
+                  | Public / Analyst Relations
+        .fluid.ui.submit.button.huge.js-submit Add meeting
+        .ui.error.message
+
+    script(type='text/template', id='meeting-list-item')
+        td.date <%= date%>
+        <td data-sort-value='<%= startTime%>'><%= startTimeClient%> - <%= endTimeClient%></td>
+        td <%= title%>
+        td <%= location%>
+        td <%= category%>
+        td
+          a(href='#')
+            i.edit.icon
+          a(href='#')
+            i.basic.delete.icon
+
+    script(type='text/template', id='meeting-list')
+        thead
+            tr
+                th.ascending Date
+                th.ascending Time
+                th.ascending Title
+                th.ascending Location
+                th.ascending Category
+                th
+        tbody
+
+    script(type='text/template', id='meeting-edit')
+        i.close.icon
+        form.ui.large.form.segment.edit-meeting
+            .field.input.ui.huge
+                <input type='text' name='title' id='edit-title' class='title gray' data-title='<%= title%>'>
+            .edit.date.field.input.ui.huge
+                label
+                <input type='text' name='date' id='edit-date' class='datepicker' placeholder='<%= dateClient%>'>
+            .two.fields
+                .field.icon.input.ui.huge
+                    label
+                    <input type='text' name='startTimeClient' id='edit-startTimeClient' class='starttimepicker' placeholder='<%= startTimeClient%>'>
+                    i.time.icon
+                .field.icon.input.ui.huge
+                    label
+                    <input type='text' name='endTimeClient' id='edit-endTimeClient' class='endtimepicker' placeholder='<%= endTimeClient%>'>
+                    i.time.icon
+            .field.ui.selection.fluid.dropdown.input.huge.js-edit-location-dropdown
+                input(type='hidden', name='location', id='edit-location')
+                .text.edit-location.gray <%= location%>
+                i.black.dropdown.icon
+                .menu.edit-location-dropdown
+                  .item(data-value='Basie') Basie
+                  .item(data-value='Ellington') Ellington
+                  .item(data-value='Fitzgerald') Fitzgerald
+                  .item(data-value='Gillespie') Gillespie
+                  .item(data-value='Gordon') Gordon
+                  .item(data-value='Marsalis') Marsalis
+                  .item(data-value='Miller') Miller
+                  .item(data-value='Monk') Monk
+                  .item(data-value='MPR') MPR
+                  .item(data-value='Rollins') Rollins
+                  .item(data-value='Sinatra') Sinatra
+                  .item(data-value='Vaughan') Vaughan
+                  .item(data-value='Williams') Williams
+                  .item(data-value='Williams / Sinatra') Williams / Sinatra
+                  .item(data-value='Williams / Sinatra / Ellington') Williams / Sinatra / Ellington
+            .field.ui.selection.fluid.dropdown.input.huge.js-edit-category-dropdown
+                input(type='hidden', name='category', id='edit-category')
+                .text.edit-category.gray <%= category%>
+                i.black.dropdown.icon
+                .menu.edit-category-dropdown
+                  .item(data-value='Customer')
+                    i.large.basic.money.icon
+                    | Customer
+                  .item(data-value='Internal')
+                    i.large.home.icon
+                    | Internal
+                  .item(data-value='Partner')
+                    i.large.globe.icon
+                    | Partner
+                  .item(data-value='Public / Analyst Relations')
+                    i.large.basic.chart.icon
+                    | Public / Analyst Relations
+            .fluid.ui.submit.button.huge.js-submit-edit Update meeting
+
+    script(type='text/template', id='missing-meeting-view')
+        i.close.icon
+        .ui.icon.message.missing-meeting
+          i.frown.icon
+          .content
+            .header This meeting doesn't exist!
+            p H&L Dev Team
+
+    script(type='text/template', id='loading-view')
+        .ui.segment.loading-view
+          .ui.active.dimmer
+            <div class='ui large text loader'><%= title %></div>
+
+    script(type='text/template', id='meeting-list-none')
+        td.no-meetings-row(colspan='6')
+          .ui.icon.header.center
+            i.circular.empty.calendar.icon
+            | No meetings scheduled

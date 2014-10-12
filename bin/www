@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+var debug = require('debug')('test');
+var app = require('../app');
+require('colors');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+
+  console.log('      _______________________'.magenta);
+  console.log('()===(                      (@===()'.magenta);
+  console.log('     \'______________________\'|'.magenta);
+  console.log('       |                     |'.magenta);
+  console.log('       |  Your meeting       |'.magenta);
+  console.log('       |  booker             |'.magenta);
+  console.log('       |  is                 |'.magenta);
+  console.log('       |  now                |'.magenta);
+  console.log('       |  running!           |'.magenta);
+  console.log('       |                     |'.magenta);
+  console.log('       |                     |'.magenta);
+  console.log('       |             love,   |'.magenta);
+  console.log('       |    Channing Tatum   |'.magenta);
+  console.log('      _)_____________________|'.magenta);
+  console.log('()===(                      (@===()'.magenta);
+  console.log('      \'----------------------\''.magenta);
+  console.log('                                '.magenta);
+
+
+  console.log('Check out the app at http://localhost:' + server.address().port);
+  console.log('Press Ctrl+C to stop.');
+});

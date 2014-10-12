@@ -1,0 +1,192 @@
+$green = #095A6A
+$light-green = #066F6D
+$pink = #E7BEBE
+$ruby = #D95C5C
+$lighter-gray = rgba(0,0,0,.1)
+$mid-gray = rgba(0,0,0,.7)
+$light-gray = rgba(0,0,0,.9)
+$gray = #AAAAAA
+$snow = #FFFAFA
+mw998 = "only screen and (max-width: 998px)"
+
+/************ FONTS ************/
+@font-face
+  font-family 'ProximaNova'
+  src url('../fonts/proximanova-light-webfont.eot')
+  src url('../fonts/proximanova-light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/proximanova-light-webfont.woff') format('woff'),
+    url('../fonts/proximanova-light-webfont.ttf') format('truetype'),
+    url('../../static/fonts/proximanova-light-webfont.svg#proxima_novalight') format('svg');
+  font-weight 300
+  font-style normal
+
+@font-face
+  font-family 'ProximaNova'
+  src url('../fonts/proximanova-regular-webfont.eot')
+  src url('../fonts/proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/proximanova-regular-webfont.woff') format('woff'),
+    url('../fonts/proximanova-regular-webfont.ttf') format('truetype'),
+    url('../fonts/proximanova-regular-webfont.svg#proxima_nova_rgregular') format('svg')
+  font-weight 400
+  font-style normal
+
+@font-face
+  font-family 'ProximaNova'
+  src url('../fonts/proximanova-semibold-webfont.eot')
+  src url('../fonts/proximanova-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/proximanova-semibold-webfont.woff') format('woff'),
+    url('../fonts/proximanova-semibold-webfont.ttf') format('truetype'),
+    url('../fonts/proximanova-semibold-webfont.svg#proxima_novasemibold') format('svg')
+  font-weight 600
+  font-style normal
+
+@font-face
+  font-family 'Gotham'
+  src url('../fonts/gotham-thin-webfont.eot')
+  src url('../fonts/gotham-thin-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/gotham-thin-webfont.woff') format('woff'),
+    url('../fonts/gotham-thin-webfont.ttf') format('truetype'),
+    url('../fonts/gotham-thin-webfont.svg#gotham_thinregular') format('svg')
+  font-weight 200
+  font-style normal
+
+*, *:before, *:after
+  -moz-box-sizing border-box
+  -webkit-box-sizing border-box
+  box-sizing border-box
+
+html
+  height 100%
+
+body
+  font 15px/25px 'ProximaNova', Helvetica, Arial, sans-serif
+  margin 0
+
+  height 100%
+  background url('../images/textured-bkgrd.png')
+
+#container
+  min-height 100%
+  padding 3em 0
+
+.logo
+  max-width 650px
+  margin 0 auto
+
+h1
+  font-size 2.3em
+  font-weight 300
+  color white
+
+.ui.divider
+  margin-bottom 2em
+  border-bottom-color white
+  width 0
+
+/************ CREATE MEETING VIEW************/
+
+.ui.form.segment
+  max-width 650px
+  margin 2.5em auto
+
+.ui.segment
+  padding 2em
+  border-radius 2px
+
+// Corner label to stick to the edge
+.ui.input>.ui.corner.label
+  border-radius 2px
+
+.text
+  font-size .875em
+
+.gray
+  color $gray
+
+.mid-gray
+  color $mid-gray
+
+.ui.form .field>label
+  margin-bottom 0
+
+.ui.form .date.field > label:after
+  top .75em
+
+.ui.large.form input, .ui.selection.dropdown, .ui.button, .ui.active.selection.dropdown
+  border-radius 2px !important
+
+.ui.visible.selection.dropdown
+  border-bottom-left-radius 0 !important
+  border-bottom-right-radius 0 !important
+
+.ui.selection.dropdown.error
+  background-color $snow
+  border 1px solid $pink
+  border-left 0
+  -webkit-box-shadow .3em 0 0 0 $ruby inset !important
+  box-shadow .3em 0 0 0 $ruby inset !important
+  border-top-left-radius 0 !important
+  border-bottom-left-radius 0 !important
+
+.ui.selection.dropdown.error .text
+  color rgba(255, 80, 80, 0.4);
+
+.submit.button.huge
+  background-color $green
+  color white
+
+.submit.button.huge:hover
+  background-color $light-green
+
+/************ LIST MEETINGS VIEW************/
+
+#meeting-region
+  margin-top 2.5em
+
+table i.icon:last-child
+  margin-right 0
+
+table i.icon:first-child
+  margin-right .8em
+
+table.ui.segment
+  margin-top 2em
+  width 90%
+  margin 0 auto
+
+td a
+  text-decoration none
+  color rgba(0,0,0,.8)
+
+.ui.padded.table .no-meetings-row
+  text-align center
+  padding 2em 0
+
+/************ EDIT MEETING VIEW************/
+
+.ui.dimmer
+  line-height 1.5
+
+.ui.modal
+  max-width 650px
+
+.ui.form.segment.edit-meeting
+  margin 0
+
+.ui.form .edit.date.field > label:after
+  top .55em
+
+/************ LOADING MEETING VIEW************/
+
+.ui.segment.loading-view
+  height 180px
+
+/************ MISSING MEETING VIEW************/
+
+.ui.message.missing-meeting
+  margin-top 0
+
+/************ DATEPICKER FIX ************/
+
+.ui.form .picker__header
+  margin-top .75em
