@@ -3,7 +3,7 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
 
   Meetings.Router = Marionette.AppRouter.extend({
     appRoutes: {
-      'meetings': 'listMeetings'
+      '': 'listMeetings'
     }
   });
 
@@ -21,7 +21,6 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
 
   // Event listeners
   meetingChannel.comply('list:meetings', function(){
-    MeetingBooker.navigate('meetings');
     listMeetingsManager.listMeetings();
   });
 
