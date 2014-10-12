@@ -1,9 +1,9 @@
 # Meeting Booker
 
-### Live Site: [meetingbooker.herokuapp.com](http://meetingbooker.herokuapp.com/)
+### Live Site: [fabmeetingbooker.herokuapp.com](http://fabmeetingbooker.herokuapp.com/)
 
 ### Description:
-A fab meeting booker built on top of Marionette and Backbone.
+A simple meeting booker built on top of Marionette and Backbone.
 
 ![Meeting Booker](/public/images/meetingBookerScreenshot.png)
 
