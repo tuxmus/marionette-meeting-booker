@@ -5,6 +5,14 @@ var stylus = require('gulp-stylus');
 var minifyCSS = require('gulp-minify-css');
 var watch = require('gulp-watch');
 
+gulp.task('concatJS', function() {
+  return gulp.src([
+    'public/javascripts/**/*.js'
+  ])
+    .pipe(concat('meetingBookerBundle.js'))
+    .pipe(gulp.dest('public/dist'));
+});
+
 gulp.task('uglifyJS', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
@@ -17,8 +25,7 @@ gulp.task('uglifyJS', function() {
     'bower_components/underscore/underscore.js',
     'bower_components/backbone/backbone.js',
     'bower_components/marionette/lib/backbone.marionette.js',
-    'bower_components/backbone.radio/build/backbone.radio.js',
-    'public/javascripts/**/*.js'
+    'bower_components/backbone.radio/build/backbone.radio.js'
   ])
     .pipe(concat('bundle.js'))
     .pipe(uglify())
@@ -48,7 +55,7 @@ gulp.task('minifyCSS', function() {
 
 gulp.task('watch', function() {
   gulp.watch('public/stylesheets/**.styl', ['compileCSS', 'minifyCSS']);
-  gulp.watch('public/javascripts/**/*.js', ['uglifyJS']);
+  gulp.watch('public/javascripts/**/*.js', ['concatJS']);
 });
 
 gulp.task('default', ['watch']);
