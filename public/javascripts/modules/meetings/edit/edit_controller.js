@@ -21,21 +21,19 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
 
         view.on('submit:form', function(formData){
           $.when(meeting.save(formData))
-            .done(function(){
+            .done(function() {
               meetingChannel.command('list:meetings');
             })
-            .fail(function(){
+            .fail(function() {
               console.log('Meeting is NOT updated!')
             });
         });
 
         view.on('close:modal', function(){
-          this.render();
           meetingChannel.command('list:meetings');
         });
 
         MeetingBooker.getRegion('editRegion').show(view);
-
       });
     }
   }

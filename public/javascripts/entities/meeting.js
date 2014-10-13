@@ -33,7 +33,6 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
       var defer = $.Deferred(); // Declare a Deferred obj instance (something that will happen later)
       meeting.fetch({
         success: function(data){
-          debugger;
           defer.resolve(data); // When fetch call succeeds, we resolve the deferred obj & forward the received data
         },
         error: function(data){
