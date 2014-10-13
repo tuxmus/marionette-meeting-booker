@@ -7,7 +7,7 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
     }
   });
 
-  var ListMeetingsManager = Marionette.Object.extend({
+  var MeetingManager = Marionette.Object.extend({
     listMeetings: function(){
       Meetings.List.Controller.listMeetings();
     },
@@ -17,18 +17,18 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
     }
   });
 
-  var listMeetingsManager = new ListMeetingsManager();
+  var meetingManager = new MeetingManager();
 
   // Event listeners
   meetingChannel.comply('list:meetings', function(){
-    listMeetingsManager.listMeetings();
+    meetingManager.listMeetings();
   });
 
   MeetingBooker.on('edit:meeting', function(id){
-    listMeetingsManager.editMeeting(id);
+    meetingManager.editMeeting(id);
   });
 
   return new Meetings.Router({
-    controller: listMeetingsManager
+    controller: meetingManager
   });
 });
