@@ -2,7 +2,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
   var meetingChannel = Backbone.Radio.channel('meeting');
 
   // Public function
-  List.Controller = {
+  var ListMeetingsController = Marionette.Object.extend({
     listMeetings: function(){
       var loadingView = new MeetingBooker.CommonViews.Loading({
         title: 'Loading Meeting List'
@@ -32,5 +32,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
         }
       });
     }
-  }
+  });
+
+  List.Controller = new ListMeetingsController();
 });
