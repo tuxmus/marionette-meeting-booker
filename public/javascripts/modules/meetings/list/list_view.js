@@ -3,25 +3,23 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
   List.Meeting = Marionette.ItemView.extend({
     template: '#meeting-list-item',
     tagName: 'tr',
+    ui: {
+      editIcon: 'i.edit.icon',
+      deleteIcon: 'i.delete.icon'
+    },
     events: {
       'mouseenter': 'highlightRow',
-      'mouseleave': 'unhighlightRow',
-      'click i.edit.icon': 'editEntry',
-      'click i.delete.icon': 'deleteClicked'
+      'mouseleave': 'unhighlightRow'
+    },
+    triggers: {
+      'click @ui.editIcon': 'edit:meeting',
+      'click @ui.deleteIcon': 'delete:meeting'
     },
     highlightRow: function(e){
       this.$el.addClass('active');
     },
     unhighlightRow: function(e){
       this.$el.removeClass('active');
-    },
-    editEntry: function(e){
-      e.preventDefault();
-      this.trigger('edit:meeting', this.model);
-    },
-    deleteClicked: function(e){
-      e.preventDefault();
-      this.trigger('delete:meeting', this.model); // Event triggered for list controller
     },
     remove: function(){
       var self = this;
@@ -53,7 +51,10 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
     childViewContainer: 'tbody',
     emptyView: NoMeetingsView,
 
-    // TriggerMethod
+    collectionEvents: {
+      'remove': 'onMeetingDeleted'
+    },
+
     onMeetingDeleted: function(){
       this.$el.fadeOut(500, function(){
         $(this).fadeIn(500);

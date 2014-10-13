@@ -11,11 +11,18 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
   Edit.Meeting = Marionette.ItemView.extend({
     template: '#meeting-edit',
     className: 'ui modal',
-    events: {
-      'click .js-submit-edit': 'submitChanges',
-      'click .close.icon': 'renderView'
+    ui: {
+      $submitBtn: '.js-submit-edit',
+      $closeIcon: '.close.icon'
     },
-    submitChanges: function(e){
+    events: {
+      'click @ui.$submitBtn': '_handleSubmit'
+    },
+    triggers: {
+      'click @ui.$closeIcon': 'close:modal'
+    },
+
+    _handleSubmit: function(e){
       e.preventDefault();
       //Get value from an input field
       function getFieldValue(fieldId) {
@@ -39,17 +46,15 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
       this.trigger('submit:form', formData); // Sent to edit controller
     },
 
-    renderView: function(e){
-      this.trigger('close:modal'); // Sent to edit controller
-    },
-
     onShow: function(){
+      var $meetingTitle = $('#edit-title');
+      
       $('.modal')
         .modal('setting', 'closable', false)
         .modal('show')
       ;
-      var title = $('#edit-title').data('title');
-      $('#edit-title').val(title);
+      var title = $meetingTitle.data('title');
+      $meetingTitle.val(title);
       $('.js-edit-location-dropdown').dropdown('setting', 'onChange', function(){
         $('.edit-location').addClass('mid-gray');
       });
@@ -70,8 +75,8 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
         formatSubmit: 'HH:i'
       });
 
-      $('#edit-title').focus(function(){
-        $('#edit-title').removeClass('gray');
+      $meetingTitle.focus(function(){
+        $meetingTitle.removeClass('gray');
       });
     }
   });
