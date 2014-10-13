@@ -4,6 +4,8 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
   // Public function
   var ListMeetingsController = Marionette.Object.extend({
     listMeetings: function(){
+      var self = this;
+
       var loadingView = new MeetingBooker.CommonViews.Loading({
         title: 'Loading Meeting List'
       });
@@ -17,20 +19,25 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
             collection: meetings
           });
 
-          meetingsListView.on('childview:edit:meeting', function(childView, model){
-            // Trigger an event that routing controller will react to
-            MeetingBooker.trigger('edit:meeting', model.get('_id')); // Gets handled by edit controller via meetings_app router
-            childView.flash('warning');
-          });
-
-          meetingsListView.on('childview:delete:meeting', function(childView, model){
-            this.triggerMethod('meeting:deleted');
-            model.destroy();
-          });
-
           MeetingBooker.getRegion('meetingRegion').show(meetingsListView);
+          self._setListeners(meetingsListView);
         }
       });
+    },
+
+    _setListeners: function(meetingsListView) {
+      this.listenTo(meetingsListView, 'childview:edit:meeting', this._handleEditMeeting);
+      this.listenTo(meetingsListView, 'childview:delete:meeting', this._handleDeleteMeeting);
+    },
+
+    _handleEditMeeting: function(childView) {
+      // Trigger an event that routing controller will react to
+      MeetingBooker.trigger('edit:meeting', childView.model.get('_id')); // Gets handled by edit controller via meetings_app router
+      childView.flash('warning');
+    },
+
+    _handleDeleteMeeting: function(childView) {
+      childView.model.destroy();
     }
   });
 
