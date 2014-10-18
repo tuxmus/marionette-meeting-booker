@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var debug = require('debug')('test');
+var debug = require('debug')('hl-meeting-booker');
 var app = require('../app');
 require('colors');
 
