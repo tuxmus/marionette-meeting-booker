@@ -7,7 +7,7 @@ var express = require('express');
 var router = express.Router();
 var url = require('url');
 
-// Mongoose: ceate to the DB if it doesn't exist and connect to it
+// Mongoose: create to the DB if it doesn't exist and connect to it
 // MongoHQ Sandbox must be added in order to launch this app on Heroku
 var mongoose = require('mongoose');
 mongoURI = process.env.MONGOHQ_URL || 'mongodb://localhost/meetingBooker';
