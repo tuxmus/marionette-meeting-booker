@@ -77,19 +77,10 @@ MeetingBooker.navigate = function(route, options) {
   Backbone.history.navigate(route, options);
 };
 
-MeetingBooker.getCurrentRoute = function() {
-  return Backbone.history.fragment
-};
-
 MeetingBooker.on('start', function(){
   // Once all initializers have been run, the 'start' event is triggered. We can only start Backbone's routing (via the history attribute) once all initializer have been run, to ensure the the routing controllers are ready to respond to routing events.
   if(Backbone.history){
     Backbone.history.start();
-  }
-
-  if(this.getCurrentRoute() === ''){
-    // Navigate changes the URL fragment and adds new URL to browser's history so back & forward buttons behave as expected.
-    meetingChannel.command('list:meetings'); // trigger appropriate events for our sub-apps
   }
 
   // Create new meeting view
@@ -508,7 +499,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
     },
 
     onShow: function(){
-      $('table').tablesort();
+      this.$el.tablesort();
     }
   });
 });
