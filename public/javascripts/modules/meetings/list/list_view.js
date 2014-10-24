@@ -62,7 +62,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
     },
 
     onShow: function() {
-      //this.$el.tablesort(); // why won't you work bitch!
+      this.$el.tablesorter();
     }
   });
 });

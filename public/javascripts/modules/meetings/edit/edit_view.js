@@ -1,4 +1,4 @@
-MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Marionette, $, _){
+MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Marionette, $, _) {
 
   Edit.MissingMeeting = Marionette.ItemView.extend({
     template: '#missing-meeting-view',
