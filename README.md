@@ -2,7 +2,7 @@
 
 ### Live Site: [fabmeetingbooker.herokuapp.com](http://fabmeetingbooker.herokuapp.com/)
 
-### Description:
+### Description
 A simple meeting booker built on top of Marionette and Backbone.
 
 ![Meeting Booker](/public/images/meetingBookerScreenshot.png)
@@ -10,30 +10,37 @@ A simple meeting booker built on top of Marionette and Backbone.
 ### Steps to Get the App Running
 1. Install **MongoDB**: instructions [here](http://docs.mongodb.org/manual/installation)
 2. Install **Node**: instructions [here](http://nodejs.org)
-3. Fork this repo
-4. Clone it down locally
+3. **Fork** this repo
+4. **Clone** it down locally
 5. In your terminal, type `npm install`
 6. In your terminal, type `mongod` to start the MongoDB server
 7. In your terminal, type `node ./bin/www` to launch the app
-8. In your terminal, type `gulp`
-9. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
+8. Check out the app at [localhost:3000](http://localhost:3000)
+9. In your terminal, type `gulp`
+10. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
 
-Note: All of your meetings will be outputted as JSON at this endpoint: [localhost:3000/api/meetings](http://localhost:3000/api/meetings)
+**Note**: All of your meetings will be outputted as JSON at this endpoint: [localhost:3000/api/meetings](http://localhost:3000/api/meetings)
 
-### Client-Side Tech
-* Backbone
-* Marionette
-* jQuery
-* Underscore
-* Stylus
+### Client-Side Tech / Libs
+* [Backbone](http://backbonejs.org)
+* [Marionette](http://marionettejs.com)
+* [Backbone.Radio](https://github.com/marionettejs/backbone.radio)
+* [Backbone localStorage Adapter](https://github.com/jeromegn/Backbone.localStorage)
+* [jQuery](http://jquery.com)
+* [Underscore](http://underscorejs.org)
+* [Stylus](http://learnboost.github.io/stylus)
 
-### Server-Side Tech
-* Node
-* Express
-* Jade
-* MongoDB
-* Mongoose
+### Server-Side Tech / Libs
+* [Node](http://nodejs.org)
+* [Express](http://expressjs.com)
+* [MongoDB](http://www.mongodb.org)
+* [Mongoose](http://mongoosejs.com)
+* [Jade](http://jade-lang.com)
+* [Gulp](http://gulpjs.com)
 
-### Other External Libraries
+### Other External Libs
 * [Semantic UI](http://semantic-ui.com)
 * [pickadate.js](http://amsul.ca/pickadate.js/index.htm)
+
+### localStorage Version
+* There's a variation of this app that uses localStorage on the [master branch](https://github.com/jdaudier/marionette-meeting-booker)
