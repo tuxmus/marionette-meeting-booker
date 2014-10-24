@@ -8,7 +8,7 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
       // Trigger a request event with id as argument. Get the promise returned by our handler.
       var fetchingMeeting = meetingChannel.request('meeting', id);
       // Wait until data is fetched before display our view
-      $.when(fetchingMeeting).done(function(meeting){
+      $.when(fetchingMeeting).done(function(meeting) {
         var view;
         if(meeting !== undefined){
           view = new Edit.Meeting({
@@ -19,7 +19,7 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
           view = new Edit.MissingMeeting();
         }
 
-        view.on('submit:form', function(formData){
+        view.on('submit:form', function(formData) {
           $.when(meeting.save(formData))
             .done(function() {
               meetingChannel.command('list:meetings');

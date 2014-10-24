@@ -27,6 +27,7 @@
     "json2": "*",
     "pickadate": "~3.5.4",
     "backbone.radio": "~0.7.0",
-    "semantic-ui": "~0.19.3"
+    "semantic-ui": "~0.19.3",
+    "Backbone.localStorage": "~1.1.13"
   }
 }

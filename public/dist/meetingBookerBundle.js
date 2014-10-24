@@ -77,19 +77,10 @@ MeetingBooker.navigate = function(route, options) {
   Backbone.history.navigate(route, options);
 };
 
-MeetingBooker.getCurrentRoute = function() {
-  return Backbone.history.fragment
-};
-
-MeetingBooker.on('start', function(){
+MeetingBooker.on('start', function() {
   // Once all initializers have been run, the 'start' event is triggered. We can only start Backbone's routing (via the history attribute) once all initializer have been run, to ensure the the routing controllers are ready to respond to routing events.
   if(Backbone.history){
     Backbone.history.start();
-  }
-
-  if(this.getCurrentRoute() === ''){
-    // Navigate changes the URL fragment and adds new URL to browser's history so back & forward buttons behave as expected.
-    meetingChannel.command('list:meetings'); // trigger appropriate events for our sub-apps
   }
 
   // Create new meeting view
@@ -120,12 +111,16 @@ MeetingBooker.on('start', function(){
       formData.category = getFieldValue('category');
 
       var meeting = new MeetingBooker.Entities.Meeting(formData);
+
       $.when(meeting.save())
-        .done(function(){
+        .done(function() {
+          debugger;
+
           $form.trigger('reset');
           $('.ui.dropdown').dropdown('restore defaults');
           $('.location').removeClass('mid-gray');
           $('.category').removeClass('mid-gray');
+
           meetingChannel.command('list:meetings');
          })
         .fail(function(){
@@ -175,23 +170,57 @@ MeetingBooker.module('CommonViews', function(CommonViews, MeetingBooker, Backbon
   });
 });
 // Entities = the module itself, MeetingBooker = the app obj that module was called from
+MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Marionette, $, _) {
+  var findStorageKey = function(entity) {
+    // use a model's urlRoot value
+    if (entity.urlRoot) {
+      return _.result(entity, 'urlRoot');
+    }
+    // use a collection's url value
+    if (entity.url) {
+      return _.result(entity, 'url');
+    }
+    // fallback to obtaining a model's storage key from
+    // the collection it belongs to
+    if (entity.collection && entity.collection.url) {
+      return _.result(entity.collection, 'url');
+    }
+
+    throw new Error('Unable to determine storage key');
+  };
+
+  var StorageMixin = function(entityPrototype){
+    var storageKey = findStorageKey(entityPrototype);
+    return {
+      localStorage: new Backbone.LocalStorage(storageKey)
+    };
+  };
+
+  Entities.configureStorage = function(entity) {
+    _.extend(entity.prototype, new StorageMixin(entity.prototype));
+  };
+});
+// Entities = the module itself, MeetingBooker = the app obj that module was called from
 MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Marionette, $, _){
   var meetingChannel = Backbone.Radio.channel('meeting');
 
   // Model "Class"
   Entities.Meeting = Backbone.Model.extend({
-    urlRoot: '/api/meetings',
-    idAttribute: '_id'
+    urlRoot: 'meetings'
   });
+
+  Entities.configureStorage(Entities.Meeting);
 
   // Collection "Class"
   Entities.Meetings = Backbone.Collection.extend({
-    url: '/api/meetings',
+    url: 'meetings',
     model: Entities.Meeting,
     comparator: function(meeting) {
       return meeting.get('date') + meeting.get('startTime');
     }
   });
+
+  Entities.configureStorage(Entities.Meetings);
 
   var API = Marionette.Object.extend({
     getMeetings: function () {
@@ -205,7 +234,7 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
       return defer.promise();
     },
     getMeeting: function (meetingId) {
-      var meeting = new Entities.Meeting({_id: meetingId});
+      var meeting = new Entities.Meeting({id: meetingId});
       var defer = $.Deferred(); // Declare a Deferred obj instance (something that will happen later)
       meeting.fetch({
         success: function(data){
@@ -286,7 +315,7 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
       // Trigger a request event with id as argument. Get the promise returned by our handler.
       var fetchingMeeting = meetingChannel.request('meeting', id);
       // Wait until data is fetched before display our view
-      $.when(fetchingMeeting).done(function(meeting){
+      $.when(fetchingMeeting).done(function(meeting) {
         var view;
         if(meeting !== undefined){
           view = new Edit.Meeting({
@@ -297,7 +326,7 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
           view = new Edit.MissingMeeting();
         }
 
-        view.on('submit:form', function(formData){
+        view.on('submit:form', function(formData) {
           $.when(meeting.save(formData))
             .done(function() {
               meetingChannel.command('list:meetings');
@@ -414,8 +443,10 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
       MeetingBooker.getRegion('editRegion').show(loadingView);
 
       var fetchingMeetings = meetingChannel.request('meetings');
-      $.when(fetchingMeetings).done(function(meetings){
-        if (meetings.length > 0){
+      $.when(fetchingMeetings).done(function(meetings) {
+        console.log(meetings.length);
+
+        if (meetings.length > 0) {
           var meetingsListView = new List.Meetings({
             collection: meetings
           });
@@ -433,7 +464,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
 
     _handleEditMeeting: function(childView) {
       // Trigger an event that routing controller will react to
-      MeetingBooker.trigger('edit:meeting', childView.model.get('_id')); // Gets handled by edit controller via meetings_app router
+      MeetingBooker.trigger('edit:meeting', childView.model.id); // Gets handled by edit controller via meetings_app router
       childView.flash('warning');
     },
 
@@ -508,7 +539,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
     },
 
     onShow: function(){
-      $('table').tablesort();
+      //this.$el.tablesort(); // why won't you work bitch!
     }
   });
 });

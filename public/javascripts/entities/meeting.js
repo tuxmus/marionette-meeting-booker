@@ -4,18 +4,21 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
 
   // Model "Class"
   Entities.Meeting = Backbone.Model.extend({
-    urlRoot: '/api/meetings',
-    idAttribute: '_id'
+    urlRoot: 'meetings'
   });
+
+  Entities.configureStorage(Entities.Meeting);
 
   // Collection "Class"
   Entities.Meetings = Backbone.Collection.extend({
-    url: '/api/meetings',
+    url: 'meetings',
     model: Entities.Meeting,
     comparator: function(meeting) {
       return meeting.get('date') + meeting.get('startTime');
     }
   });
+
+  Entities.configureStorage(Entities.Meetings);
 
   var API = Marionette.Object.extend({
     getMeetings: function () {
@@ -29,7 +32,7 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
       return defer.promise();
     },
     getMeeting: function (meetingId) {
-      var meeting = new Entities.Meeting({_id: meetingId});
+      var meeting = new Entities.Meeting({id: meetingId});
       var defer = $.Deferred(); // Declare a Deferred obj instance (something that will happen later)
       meeting.fetch({
         success: function(data){

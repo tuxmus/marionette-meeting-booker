@@ -13,8 +13,10 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
       MeetingBooker.getRegion('editRegion').show(loadingView);
 
       var fetchingMeetings = meetingChannel.request('meetings');
-      $.when(fetchingMeetings).done(function(meetings){
-        if (meetings.length > 0){
+      $.when(fetchingMeetings).done(function(meetings) {
+        console.log(meetings.length);
+
+        if (meetings.length > 0) {
           var meetingsListView = new List.Meetings({
             collection: meetings
           });
@@ -32,7 +34,7 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
 
     _handleEditMeeting: function(childView) {
       // Trigger an event that routing controller will react to
-      MeetingBooker.trigger('edit:meeting', childView.model.get('_id')); // Gets handled by edit controller via meetings_app router
+      MeetingBooker.trigger('edit:meeting', childView.model.id); // Gets handled by edit controller via meetings_app router
       childView.flash('warning');
     },
 

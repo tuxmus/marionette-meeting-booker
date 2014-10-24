@@ -18,7 +18,8 @@ html
 
     script(src='/dist/bundle.js')
     script(src='/dist/backbone.js')
+    script(src='/dist/backbone.localStorage.js')
     script(src='/dist/backbone.marionette.js')
     script(src='/dist/backbone.radio.js')
     script(src='/dist/meetingBookerBundle.js')
-    script MeetingBooker.start();
+    script MeetingBooker.start(); window.app = MeetingBooker; // attached to window for debugging purposes

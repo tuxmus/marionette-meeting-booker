@@ -9,7 +9,8 @@ gulp.task('copyLibs', function() {
   gulp.src([
     'bower_components/backbone/backbone.js',
     'bower_components/marionette/lib/backbone.marionette.js',
-    'bower_components/backbone.radio/build/backbone.radio.js'
+    'bower_components/backbone.radio/build/backbone.radio.js',
+    'bower_components/Backbone.localStorage/backbone.localStorage.js'
   ])
     .pipe(gulp.dest('public/dist'));
 });
@@ -72,6 +73,7 @@ gulp.task('build', function() {
     'bower_components/backbone/backbone.js',
     'bower_components/marionette/lib/backbone.marionette.js',
     'bower_components/backbone.radio/build/backbone.radio.js',
+    'bower_components/Backbone.localStorage/backbone.localStorage-min.js',
     'public/javascripts/**/*.js'
   ])
     .pipe(concat('bundle.js'))
