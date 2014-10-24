@@ -1,13 +1,13 @@
 // Entities = the module itself, MeetingBooker = the app obj that module was called from
 MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Marionette, $, _){
   var meetingChannel = Backbone.Radio.channel('meeting');
+  var storage = new Backbone.LocalStorage('meetings');
 
   // Model "Class"
   Entities.Meeting = Backbone.Model.extend({
-    urlRoot: 'meetings'
+    urlRoot: 'meetings',
+    localStorage: storage
   });
-
-  Entities.configureStorage(Entities.Meeting);
 
   // Collection "Class"
   Entities.Meetings = Backbone.Collection.extend({
@@ -15,10 +15,9 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
     model: Entities.Meeting,
     comparator: function(meeting) {
       return meeting.get('date') + meeting.get('startTime');
-    }
+    },
+    localStorage: storage
   });
-
-  Entities.configureStorage(Entities.Meetings);
 
   var API = Marionette.Object.extend({
     getMeetings: function () {
@@ -57,5 +56,4 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
   meetingChannel.reply('meeting', function(id){
     return api.getMeeting(id);
   });
-
 });

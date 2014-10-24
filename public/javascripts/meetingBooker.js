@@ -49,8 +49,6 @@ MeetingBooker.on('start', function() {
 
       $.when(meeting.save())
         .done(function() {
-          debugger;
-
           $form.trigger('reset');
           $('.ui.dropdown').dropdown('restore defaults');
           $('.location').removeClass('mid-gray');

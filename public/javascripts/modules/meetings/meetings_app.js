@@ -1,4 +1,4 @@
-MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Marionette, $, _){
+MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Marionette, $, _) {
   var meetingChannel = Backbone.Radio.channel('meeting');
 
   Meetings.Router = Marionette.AppRouter.extend({
@@ -8,7 +8,7 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
   });
 
   var MeetingManager = Marionette.Object.extend({
-    listMeetings: function(){
+    listMeetings: function() {
       Meetings.List.Controller.listMeetings();
     },
 
@@ -20,11 +20,11 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
   var meetingManager = new MeetingManager();
 
   // Event listeners
-  meetingChannel.comply('list:meetings', function(){
+  meetingChannel.comply('list:meetings', function() {
     meetingManager.listMeetings();
   });
 
-  MeetingBooker.on('edit:meeting', function(id){
+  MeetingBooker.on('edit:meeting', function(id) {
     meetingManager.editMeeting(id);
   });
 

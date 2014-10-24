@@ -55,13 +55,13 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
       'remove': 'onMeetingDeleted'
     },
 
-    onMeetingDeleted: function(){
-      this.$el.fadeOut(500, function(){
-        $(this).fadeIn(500);
+    onMeetingDeleted: function() {
+      this.$el.fadeOut(400, function() {
+        $(this).fadeIn(400);
       });
     },
 
-    onShow: function(){
+    onShow: function() {
       //this.$el.tablesort(); // why won't you work bitch!
     }
   });

@@ -114,8 +114,6 @@ MeetingBooker.on('start', function() {
 
       $.when(meeting.save())
         .done(function() {
-          debugger;
-
           $form.trigger('reset');
           $('.ui.dropdown').dropdown('restore defaults');
           $('.location').removeClass('mid-gray');
@@ -170,46 +168,15 @@ MeetingBooker.module('CommonViews', function(CommonViews, MeetingBooker, Backbon
   });
 });
 // Entities = the module itself, MeetingBooker = the app obj that module was called from
-MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Marionette, $, _) {
-  var findStorageKey = function(entity) {
-    // use a model's urlRoot value
-    if (entity.urlRoot) {
-      return _.result(entity, 'urlRoot');
-    }
-    // use a collection's url value
-    if (entity.url) {
-      return _.result(entity, 'url');
-    }
-    // fallback to obtaining a model's storage key from
-    // the collection it belongs to
-    if (entity.collection && entity.collection.url) {
-      return _.result(entity.collection, 'url');
-    }
-
-    throw new Error('Unable to determine storage key');
-  };
-
-  var StorageMixin = function(entityPrototype){
-    var storageKey = findStorageKey(entityPrototype);
-    return {
-      localStorage: new Backbone.LocalStorage(storageKey)
-    };
-  };
-
-  Entities.configureStorage = function(entity) {
-    _.extend(entity.prototype, new StorageMixin(entity.prototype));
-  };
-});
-// Entities = the module itself, MeetingBooker = the app obj that module was called from
 MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Marionette, $, _){
   var meetingChannel = Backbone.Radio.channel('meeting');
+  var storage = new Backbone.LocalStorage('meetings');
 
   // Model "Class"
   Entities.Meeting = Backbone.Model.extend({
-    urlRoot: 'meetings'
+    urlRoot: 'meetings',
+    localStorage: storage
   });
-
-  Entities.configureStorage(Entities.Meeting);
 
   // Collection "Class"
   Entities.Meetings = Backbone.Collection.extend({
@@ -217,10 +184,9 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
     model: Entities.Meeting,
     comparator: function(meeting) {
       return meeting.get('date') + meeting.get('startTime');
-    }
+    },
+    localStorage: storage
   });
-
-  Entities.configureStorage(Entities.Meetings);
 
   var API = Marionette.Object.extend({
     getMeetings: function () {
@@ -259,7 +225,6 @@ MeetingBooker.module('Entities', function(Entities, MeetingBooker, Backbone, Mar
   meetingChannel.reply('meeting', function(id){
     return api.getMeeting(id);
   });
-
 });
 /*
 	A simple, lightweight jQuery plugin for creating sortable tables.
@@ -270,7 +235,7 @@ $(function(){var a=window.jQuery;a.tablesort=function(d,c){var e=this;this.$tabl
 l=m.map(function(c,e){return h?"function"===typeof h?h(a(d),a(e),b):h:null!=a(this).data().sortValue?a(this).data().sortValue:a(this).text()});if(0!==l.length){b.$table.find("th").removeClass(b.settings.asc+" "+b.settings.desc);this.direction="asc"!==c&&"desc"!==c?"asc"===this.direction?"desc":"asc":c;c="asc"==this.direction?1:-1;b.$table.trigger("tablesort:start",[b]);b.log("Sorting by "+this.index+" "+this.direction);for(var f=0,p=l.length;f<p;f++)k.push({index:f,cell:m[f],row:n[f],value:l[f]});
 k.sort(function(a,b){return a.value>b.value?1*c:a.value<b.value?-1*c:0});a.each(k,function(a,b){g.append(b.row)});d.addClass(b.settings[b.direction]);b.log("Sort finished in "+((new Date).getTime()-e.getTime())+"ms");b.$table.trigger("tablesort:complete",[b])}},log:function(d){(a.tablesort.DEBUG||this.settings.debug)&&console&&console.log&&console.log("[tablesort] "+d)},destroy:function(){this.$table.find("th").unbind("click.tablesort");this.$table.data("tablesort",null);return null}};a.tablesort.DEBUG=
 !1;a.tablesort.defaults={debug:a.tablesort.DEBUG,asc:"sorted ascending",desc:"sorted descending"};a.fn.tablesort=function(d){var c,e;return this.each(function(){c=a(this);(e=c.data("tablesort"))&&e.destroy();c.data("tablesort",new a.tablesort(c,d))})}});
-MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Marionette, $, _){
+MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Marionette, $, _) {
   var meetingChannel = Backbone.Radio.channel('meeting');
 
   Meetings.Router = Marionette.AppRouter.extend({
@@ -280,7 +245,7 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
   });
 
   var MeetingManager = Marionette.Object.extend({
-    listMeetings: function(){
+    listMeetings: function() {
       Meetings.List.Controller.listMeetings();
     },
 
@@ -292,11 +257,11 @@ MeetingBooker.module('Meetings', function(Meetings, MeetingBooker, Backbone, Mar
   var meetingManager = new MeetingManager();
 
   // Event listeners
-  meetingChannel.comply('list:meetings', function(){
+  meetingChannel.comply('list:meetings', function() {
     meetingManager.listMeetings();
   });
 
-  MeetingBooker.on('edit:meeting', function(id){
+  MeetingBooker.on('edit:meeting', function(id) {
     meetingManager.editMeeting(id);
   });
 
@@ -428,12 +393,12 @@ MeetingBooker.module('Meetings.Edit', function(Edit, MeetingBooker, Backbone, Ma
     }
   });
 });
-MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Marionette, $, _){
+MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Marionette, $, _) {
   var meetingChannel = Backbone.Radio.channel('meeting');
 
   // Public function
   var ListMeetingsController = Marionette.Object.extend({
-    listMeetings: function(){
+    listMeetings: function() {
       var self = this;
 
       var loadingView = new MeetingBooker.CommonViews.Loading({
@@ -444,8 +409,6 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
 
       var fetchingMeetings = meetingChannel.request('meetings');
       $.when(fetchingMeetings).done(function(meetings) {
-        console.log(meetings.length);
-
         if (meetings.length > 0) {
           var meetingsListView = new List.Meetings({
             collection: meetings
@@ -532,13 +495,13 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
       'remove': 'onMeetingDeleted'
     },
 
-    onMeetingDeleted: function(){
-      this.$el.fadeOut(500, function(){
-        $(this).fadeIn(500);
+    onMeetingDeleted: function() {
+      this.$el.fadeOut(400, function() {
+        $(this).fadeIn(400);
       });
     },
 
-    onShow: function(){
+    onShow: function() {
       //this.$el.tablesort(); // why won't you work bitch!
     }
   });

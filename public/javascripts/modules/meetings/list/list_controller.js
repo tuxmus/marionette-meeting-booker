@@ -1,9 +1,9 @@
-MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Marionette, $, _){
+MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Marionette, $, _) {
   var meetingChannel = Backbone.Radio.channel('meeting');
 
   // Public function
   var ListMeetingsController = Marionette.Object.extend({
-    listMeetings: function(){
+    listMeetings: function() {
       var self = this;
 
       var loadingView = new MeetingBooker.CommonViews.Loading({
@@ -14,8 +14,6 @@ MeetingBooker.module('Meetings.List', function(List, MeetingBooker, Backbone, Ma
 
       var fetchingMeetings = meetingChannel.request('meetings');
       $.when(fetchingMeetings).done(function(meetings) {
-        console.log(meetings.length);
-
         if (meetings.length > 0) {
           var meetingsListView = new List.Meetings({
             collection: meetings
