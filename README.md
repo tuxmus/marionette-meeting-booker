@@ -21,7 +21,10 @@ A simple meeting booker built on top of Marionette and Backbone.
 
 ### Steps to Run the Tests
 1. Follow the setup steps above
-2. Open [`test/index.html`](test/index.html) in a browser
+2. Open [`test/index.html`](test/index.html) in a browser. You should see this:
+
+    ![test runner](public/images/tests.png)
+
 3. Refresh the page to re-run tests
 
 ### Client-Side Tech / Libs
