@@ -14,7 +14,7 @@ A simple meeting booker built on top of Marionette and Backbone.
 4. In your terminal, type `npm install`
 5. In your terminal, type `node ./bin/www` to launch the app
 6. Check out the app at [localhost:3000](http://localhost:3000)
-7. In your terminal, type `gulp`. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
+7. In a new terminal, type `gulp`. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
 
 ### Client-Side Tech / Libs
 * [Backbone](http://backbonejs.org)
