@@ -5,16 +5,27 @@
 ### Description
 A simple meeting booker built on top of Marionette and Backbone.
 
-![Meeting Booker](/public/images/meetingBookerScreenshot.png)
+![Meeting Booker](public/images/meetingBookerScreenshot.png)
 
-### Steps to Get the App Running
+### Steps to Get the App Set Up
 1. Install **Node**: instructions [here](http://nodejs.org)
 2. **Fork** this repo
 3. **Clone** it down locally
-4. In your terminal, type `npm install`
-5. In your terminal, type `node ./bin/www` to launch the app
-6. Check out the app at [localhost:3000](http://localhost:3000)
-7. In your terminal, type `gulp`. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
+4. In your terminal, run `npm install`
+5. In your terminal, run `gulp`. If you make any changes to any JavaScript files under the `public/javascripts` folder or any Stylus files under the `public/stylesheets` folder, Gulp will recompile your changes. Refresh your browser to see them.
+
+### Steps to Get the App Running
+1. Follow the setup steps above
+2. In a new terminal, run `node ./bin/www` to launch the app
+3. Check out the app at [localhost:3000](http://localhost:3000)
+
+### Steps to Run the Tests
+1. Follow the setup steps above
+2. Open [`test/index.html`](test/index.html) in a browser. You should see this:
+
+    ![test runner](public/images/tests.png)
+
+3. Refresh the page to re-run tests
 
 ### Client-Side Tech / Libs
 * [Backbone](http://backbonejs.org)
@@ -30,6 +41,10 @@ A simple meeting booker built on top of Marionette and Backbone.
 * [Express](http://expressjs.com)
 * [Jade](http://jade-lang.com)
 * [Gulp](http://gulpjs.com)
+
+### Testing Tech / Libs
+* [Mocha](http://mochajs.org)
+* [Expect.js](https://github.com/LearnBoost/expect.js)
 
 ### Other External Libs
 * [Semantic UI](http://semantic-ui.com)
